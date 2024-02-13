@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Hello World</h1>
+<p>I'm hosted with GitHub Pages.</p>
+
+
 Issue: 
 Sometimes an organizer will get an error that their meeting cancellation failed to send but was removed from their own calendar. 
 
@@ -60,4 +67,7 @@ Content Search
 CLI:
 $Search=New-ComplianceSearch -Name "JJ - Test Meeting" -ExchangeLocation All -ContentMatchQuery '(Received:4/13/2016..4/14/2016) AND (Subject:"Action required")'
 Start-ComplianceSearch -Identity $Search.Identity
+
+</body>
+</html>
 
