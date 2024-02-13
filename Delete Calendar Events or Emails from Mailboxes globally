@@ -1,0 +1,63 @@
+Issue: 
+Sometimes an organizer will get an error that their meeting cancellation failed to send but was removed from their own calendar. 
+
+Solution:
+Try and cancel all events in the series 
+Manually notify all external participants 
+IT to remove the calendar invite from the backend calendars for all internal participants. 
+
+IT Process to remove calendar invites
+Must go through change management since this can be destructive
+
+
+Resources
+https://www.codetwo.com/admins-blog/new-compliancesearch-new-version-of-search-mailbox/
+
+
+Process
+Create Change Request
+
+Compliance.microsoft.com
+Test your Search
+New Content Search
+Add Title, Type, and Sender to your search generally at a minimum. 
+A detailed query search condition that could help you get started:
+(c:c)(senderauthor=jlongfield@signaturedentalpartners.com)(subjecttitle="SDP State of the Union")(kind=meetings)(lastmodifiedtime=2024-01-01..2024-02-11)
+
+Date does not work well for meetings because it's not the meeting's date but when the meeting was sent, which is generally unknown or far in the past for recurring meetings. 
+Sometimes its best just deleting all meetings with that subject, then asking the organizers to re-create. 
+Alternative solutions and good testing is needed to ensure the meeting title is unique. Try and use Sender/Author
+Lastmodifiedtime is another good option for meetings
+
+Searches take ~1-10 minutes by my experience.
+
+Export Results
+Review Sample doesn't always work for me.
+
+Use Microsoft Edge browser
+Copy Export Key
+Select Download Results
+Connect to Exchange Online PowerShell
+Connect-ExchangeOnline
+Connect-IPPSSession -UserPrincipalName 
+
+Soft Purge the search results (use if it's a meeting)
+New-ComplianceSearchAction -SearchName "JJ - Test Meeting" -Purge -PurgeType SoftDelete
+
+Show status of purge
+Get-ComplianceSearchAction
+# Find the "Name" used _Purge
+
+
+
+
+Notes
+
+Create a new compliance search via GUI or CLI
+GUI
+compliance.microsoft.com
+Content Search
+CLI:
+$Search=New-ComplianceSearch -Name "JJ - Test Meeting" -ExchangeLocation All -ContentMatchQuery '(Received:4/13/2016..4/14/2016) AND (Subject:"Action required")'
+Start-ComplianceSearch -Identity $Search.Identity
+
